@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Winona ❤️</title>
+
+<style>
+body{
+margin:0;
+background:linear-gradient(135deg,#ff4d6d,#ff758f,#ff8fab);
+font-family:'Segoe UI',sans-serif;
+text-align:center;
+color:white;
+overflow:hidden;
+}
+
+.container{
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+padding:20px;
+}
+
+h1{font-size:28px;}
+
+.heart{
+font-size:120px;
+cursor:pointer;
+animation:pulse 1.2s infinite;
+}
+
+@keyframes pulse{
+0%{transform:scale(1);}
+50%{transform:scale(1.15);}
+100%{transform:scale(1);}
+}
+
+.message{
+max-width:85%;
+font-size:22px;
+margin-top:20px;
+opacity:0;
+transition:opacity 1.5s;
+}
+.show{opacity:1;}
+
+.buttons{margin-top:30px;}
+
+button{
+padding:15px 30px;
+margin:10px;
+border:none;
+border-radius:40px;
+font-size:22px;
+cursor:pointer;
+transition:0.25s;
+}
+
+.yes{background:#ff006e;color:white;}
+.no{background:white;color:#ff006e;position:absolute;}
+
+.final{
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:#ff4d6d;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+font-size:34px;
+opacity:0;
+pointer-events:none;
+transition:opacity 1.5s;
+}
+
+.countdown{
+font-size:28px;
+margin-top:20px;
+}
+
+.photo{
+position:absolute;
+width:120px;
+border-radius:15px;
+animation:float 8s linear infinite;
+}
+
+@keyframes float{
+from{transform:translateY(100vh) rotate(0deg);}
+to{transform:translateY(-20vh) rotate(360deg);}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h1>Tap the heart Winona ❤️</h1>
+<div class="heart" onclick="openCard()">❤️</div>
+
+<div id="message" class="message">
+Okay Winona... I tried being subtle 😌<br><br>
+But you keep living in my head rent free<br>
+And honestly... I don't want you to leave.<br><br>
+Be my Valentine?
+</div>
+
+<div id="buttons" class="buttons" style="display:none;">
+<button class="yes" id="yesBtn" onclick="sayYes()">YES 😏</button>
+<button class="no" id="noBtn">NO 🙃</button>
+</div>
+</div>
+
+<div id="final" class="final">
+<div>You were always going to press yes 💘</div>
+<div class="countdown" id="countdown"></div>
+</div>
+
+<script>
+
+let yesSize = 1;
+
+function openCard(){
+document.querySelector(".heart").style.display="none";
+document.querySelector("h1").style.display="none";
+document.getElementById("message").classList.add("show");
+
+setTimeout(()=>{
+document.getElementById("buttons").style.display="block";
+moveNoButton();
+},2500);
+}
+
+function moveNoButton(){
+const btn=document.getElementById("noBtn");
+
+btn.addEventListener("mouseover",()=>{
+const x=Math.random()*(window.innerWidth-100);
+const y=Math.random()*(window.innerHeight-50);
+btn.style.left=x+"px";
+btn.style.top=y+"px";
+
+yesSize += 0.15;
+document.getElementById("yesBtn").style.transform=`scale(${yesSize})`;
+});
+}
+
+function sayYes(){
+document.getElementById("final").style.opacity="1";
+document.getElementById("final").style.pointerEvents="all";
+startHearts();
+startPhotos();
+startCountdown();
+}
+
+function startHearts(){
+setInterval(()=>{
+const heart=document.createElement("div");
+heart.innerHTML="💖";
+heart.style.position="absolute";
+heart.style.left=Math.random()*100+"vw";
+heart.style.fontSize=(20+Math.random()*40)+"px";
+heart.style.animation="float 6s linear";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),6000);
+},300);
+}
+
+/* ADD YOUR PHOTOS HERE */
+const photos=[
+"photo1.jpg",
+"photo2.jpg",
+"photo3.jpg",
+"photo4.jpg"
+];
+
+function startPhotos(){
+setInterval(()=>{
+const img=document.createElement("img");
+img.src=photos[Math.floor(Math.random()*photos.length)];
+img.className="photo";
+img.style.left=Math.random()*90+"vw";
+document.body.appendChild(img);
+setTimeout(()=>img.remove(),8000);
+},900);
+}
+
+/* COUNTDOWN */
+function startCountdown(){
+const target = new Date("February 14, 2026 12:00:00").getTime();
+
+setInterval(()=>{
+const now = new Date().getTime();
+const diff = target - now;
+
+if(diff <= 0){
+document.getElementById("countdown").innerHTML = "It's our time ❤️";
+return;
+}
+
+const d = Math.floor(diff/(1000*60*60*24));
+const h = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+const m = Math.floor((diff%(1000*60*60))/(1000*60));
+const s = Math.floor((diff%(1000*60))/1000);
+
+document.getElementById("countdown").innerHTML =
+`${d}d ${h}h ${m}m ${s}s until our date 💕`;
+
+},1000);
+}
+
+</script>
+
+</body>
+</html>
